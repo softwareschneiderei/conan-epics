@@ -17,7 +17,7 @@ EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput")
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "{}-{}".format(EPICS_BASE_VERSION, EPICS_V4_VERSION)
+    version = "3.16.1-4.6.0"
     license = "BSD 2-Clause"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
