@@ -1,0 +1,9 @@
+export DYLD_LIBRARY_PATH=$(INSTALL_LOCATION)/lib/$(EPICS_HOST_ARCH)
+
+PRODDIR_RPATH_LDFLAGS_YES += $(PROD_DEPLIB_DIRS:%=-Wl,-rpath,@executable_path/../lib)
+PRODDIR_LDFLAGS += $(PRODDIR_RPATH_LDFLAGS_YES)
+
+SHRLIB_LDFLAGS = -dynamiclib -flat_namespace -undefined suppress \
+    -install_name @rpath/$@ \
+    $(addprefix -compatibility_version , $(SHRLIB_VERSION)) \
+    $(addprefix -current_version , $(SHRLIB_VERSION))
