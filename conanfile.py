@@ -103,7 +103,7 @@ class EpicsbaseConan(ConanFile):
         tools.replace_in_file(
             os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
             "GNU_LIB = $(GNU_DIR)/lib",
-            "GNU_BIN = {}/lib".format(path_to_gnu)
+            "GNU_LIB = {}/lib".format(path_to_gnu)
         )
 
     def _add_darwin_config(self):
