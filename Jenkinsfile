@@ -61,8 +61,7 @@ def get_pipeline(image_key) {
             stage("${image_key}: Package") {
                 sh """docker exec ${container_name} ${custom_sh} -c \"
                     cd ${project}
-                    conan create ${conan_user}/${conan_pkg_channel} \
-                        --build=missing
+                    conan create ${conan_user}/${conan_pkg_channel} --build
                 \""""
             }
 
