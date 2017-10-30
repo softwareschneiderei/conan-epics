@@ -6,7 +6,7 @@ from conans import ConanFile, AutoToolsBuildEnvironment, tools
 EPICS_BASE_VERSION = "3.16.1"
 EPICS_BASE_DIR = "base-" + EPICS_BASE_VERSION
 # Binaries to include in package
-EPICS_BASE_BINS = ("caget", "cainfo", "camonitor", "caput")
+EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput")
 
 EPICS_V4_VERSION = "4.6.0"
 EPICS_V4_DIR = "EPICS-CPP-" + EPICS_V4_VERSION
@@ -80,6 +80,30 @@ class EpicsbaseConan(ConanFile):
             os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
             "COMMANDLINE_LIBRARY = READLINE",
             "COMMANDLINE_LIBRARY = EPICS"
+        )
+        if self.settings.compiler == "gcc" and self._using_devtoolset():
+            self._set_path_to_devtoolset_gnu()
+
+    def _using_devtoolset(self):
+        gcc_path = tools.which("gcc")
+        if gcc_path is not None:
+            return 'devtoolset' in gcc_path
+        else:
+            return False
+
+    def _set_path_to_devtoolset_gnu(self):
+        gcc_path = tools.which("gcc")
+        path_to_gnu_bin = os.path.split(gcc_path)[0]
+        path_to_gnu = os.path.split(path_to_gnu_bin)[0]
+        tools.replace_in_file(
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
+            "GNU_BIN = $(GNU_DIR)/bin",
+            "GNU_BIN = {}/bin".format(path_to_gnu)
+        )
+        tools.replace_in_file(
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
+            "GNU_LIB = $(GNU_DIR)/lib",
+            "GNU_BIN = {}/lib".format(path_to_gnu)
         )
 
     def _add_darwin_config(self):
