@@ -17,7 +17,7 @@ EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput")
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0"
+    version = "3.16.1-4.6.0-dm1"
     license = "BSD 2-Clause"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
@@ -63,6 +63,9 @@ class EpicsbaseConan(ConanFile):
         with tools.chdir(EPICS_BASE_DIR):
             base_build = AutoToolsBuildEnvironment(self)
             base_build.make()
+
+        os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
+        os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
 
         # Build EPICS V4
         self._edit_epics_v4_makefile()
@@ -146,6 +149,8 @@ class EpicsbaseConan(ConanFile):
         v4_bin_dir = os.path.join(EPICS_V4_DIR, "pvAccessCPP", "bin", arch)
         for b in EPICS_V4_BINS:
             self.copy(b, dst="bin", src=v4_bin_dir)
+
+        self.copy("LICENSE.*")
 
     def package_info(self):
         self.cpp_info.libs = [
