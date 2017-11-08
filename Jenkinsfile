@@ -100,5 +100,5 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    parallel builders
+    builders
 }
