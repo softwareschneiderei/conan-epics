@@ -65,7 +65,7 @@ def get_pipeline(image_key) {
             stage("${image_key}: Package") {
                 sh """docker exec ${container_name} ${custom_sh} -c \"
                     cd ${project}
-                    conan create ${conan_user}/${conan_pkg_channel} --build
+                    conan create ${conan_user}/${conan_pkg_channel}
                 \""""
             }
 
@@ -100,5 +100,5 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders
+    parallel builders
 }
