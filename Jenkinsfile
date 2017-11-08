@@ -84,7 +84,7 @@ def get_pipeline(image_key) {
     }
 }
 
-node('docker') {
+node('docker && dmbuild03.dm.esss.dk') {
     def builders = [:]
 
     // Delete workspace when build is done
