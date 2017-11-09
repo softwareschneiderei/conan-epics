@@ -12,12 +12,12 @@ EPICS_V4_VERSION = "4.6.0"
 EPICS_V4_DIR = "EPICS-CPP-" + EPICS_V4_VERSION
 EPICS_V4_SUBDIRS = ("normativeTypesCPP", "pvAccessCPP", "pvCommonCPP",
                     "pvDataCPP", "pvDatabaseCPP", "pvaClientCPP", "pvaSrv")
-EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput")
+EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput", "testServer")
 
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0-dm1"
+    version = "3.16.1-4.6.0-dm2"
     license = "BSD 2-Clause"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
