@@ -1,4 +1,4 @@
-source_folderimport os
+import os
 import shutil
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 
