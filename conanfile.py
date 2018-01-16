@@ -1,4 +1,4 @@
-import os
+source_folderimport os
 import shutil
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 
@@ -76,7 +76,7 @@ class EpicsbaseConan(ConanFile):
 
     def _add_linux_config(self):
         shutil.copyfile(
-            os.path.join(self.conanfile_directory, "files", "CONFIG_SITE.local.linux"),
+            os.path.join(self.source_folder, "files", "CONFIG_SITE.local.linux"),
             os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
         )
         tools.replace_in_file(
@@ -111,12 +111,12 @@ class EpicsbaseConan(ConanFile):
 
     def _add_darwin_config(self):
         shutil.copyfile(
-            os.path.join(self.conanfile_directory, "files", "CONFIG_SITE.local.darwin"),
+            os.path.join(self.source_folder, "files", "CONFIG_SITE.local.darwin"),
             os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
         )
         os.remove(os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.darwinCommon.darwinCommon"))
         shutil.copyfile(
-            os.path.join(self.conanfile_directory, "files", "CONFIG_SITE.darwinCommon.darwinCommon"),
+            os.path.join(self.source_folder, "files", "CONFIG_SITE.darwinCommon.darwinCommon"),
             os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.darwinCommon.darwinCommon")
         )
 
