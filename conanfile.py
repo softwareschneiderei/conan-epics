@@ -17,7 +17,7 @@ EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput", "testServer")
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0-dm3"
+    version = "3.16.1-4.6.0-dm4"
     license = "EPICS Open license and https://github.com/epics-base/bundleCPP/blob/4.6.0/LICENSE"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
@@ -31,7 +31,7 @@ class EpicsbaseConan(ConanFile):
 
     def _get_epics_base_src(self):
         tools.download(
-            "https://www.aps.anl.gov/epics/download/base/{}.tar.gz".format(EPICS_BASE_DIR),
+            "https://epics.anl.gov/download/base/{}.tar.gz".format(EPICS_BASE_DIR),
             "{}.tar.gz".format(EPICS_BASE_DIR)
         )
         tools.check_sha256(
