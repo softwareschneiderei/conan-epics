@@ -161,7 +161,7 @@ def get_win10_pipeline() {
             )
           ]) {
             bat """C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe user \
-              --password '${CONAN_PASSWORD}' \
+              --password ${CONAN_PASSWORD} \
               --remote ${conan_remote} \
               ${conan_user}"""
           }  // withCredentials
