@@ -24,6 +24,8 @@ class EpicsbaseConan(ConanFile):
     exports = "files/*"
     settings = "os", "compiler"
     generators = "cmake"
+    # For Windows use short paths (ignored for other OS's)
+    short_paths=True
 
     def source(self):
         self._get_epics_base_src()
