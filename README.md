@@ -16,4 +16,4 @@ It requires the following items to be installed:
     Strawberry Perl (64-bit) (http://strawberryperl.com/)
     Visual Studio 2014 or 2015
 
-It expects Make to be installed at C:\gnuwin32 and Strawberry Perl to be installed at C:\Strawberry. If it is installed elsewhere then modify win32.bat to match.
+It expects Make to be installed at C:\gnuwin32 and Strawberry Perl to be installed at C:\Strawberry. If they are installed elsewhere then win32.bat needs to be modified to reflect this.
