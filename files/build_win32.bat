@@ -1,4 +1,4 @@
 REM set up build parameters
-startup\win32.bat
+call startup\win32.bat
 REM build
-make
+call make
