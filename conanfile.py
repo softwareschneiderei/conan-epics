@@ -151,6 +151,8 @@ class EpicsbaseConan(ConanFile):
             arch = "linux-x86_64"
         elif tools.os_info.is_macos:
             arch = "darwin-x86"
+        elif tools.os_info.is_windows:
+            arch = "windows-x86_64"
 
         # Package EPICS Base
         base_bin_dir = os.path.join(EPICS_BASE_DIR, "bin", arch)
