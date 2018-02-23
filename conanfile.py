@@ -59,7 +59,7 @@ class EpicsbaseConan(ConanFile):
             self._add_linux_config()
         elif tools.os_info.is_macos:
             self._add_darwin_config()
-        elif tools.os_info.is_windows()
+        elif tools.os_info.is_windows():
             self._add_windows_config()
             self._build_windows()
             return
