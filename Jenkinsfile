@@ -160,7 +160,7 @@ def get_win10_pipeline() {
               variable: 'CONAN_PASSWORD'
             )
           ]) {
-            bat """C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe user \
+            bat """conan user \
               --password ${CONAN_PASSWORD} \
               --remote ${conan_remote} \
               ${conan_user}"""
@@ -168,7 +168,7 @@ def get_win10_pipeline() {
         }  // stage
 
         stage("windows10: Package") {
-          bat """C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe create . ${conan_user}/${conan_pkg_channel} \
+          bat """conan create . ${conan_user}/${conan_pkg_channel} \
             --build=outdated"""
         }  // stage
 
