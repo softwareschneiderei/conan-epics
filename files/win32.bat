@@ -25,21 +25,21 @@ REM set PATH=C:\WINDOWS;C:\WINDOWS\COMMAND
 REM ----- WINNT, WIN2000  -----
 REM set PATH=C:\WINNT;C:\WINNT\SYSTEM32
 REM ----- WINXP, Vista, Windows 7 -----
-set PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\SYSTEM32\Wbem
+REM set PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\SYSTEM32\Wbem
 
 REM ======================================================
 REM   ---------------- make and perl ---------------------
 REM ======================================================
 
 REM   --------------- ActiveState perl -------------------
-set PATH=C:\Strawberry\perl\bin;%PATH%
+REM set PATH=C:\Strawberry\perl\bin;%PATH%
 
 REM    --------------- mingw make ------------------------
 REM set PATH=C:\mingw-make\bin;%PATH%
 REM set PATH=C:\mingw-make82-3\bin;%PATH%
 
 REM   --------------- gnuwin32 make ----------------------
-set PATH=C:\gnuwin32\bin;%PATH%
+REM set PATH=C:\gnuwin32\bin;%PATH%
 
 REM ======================================================
 REM ---------------- cygwin tools ------------------------
@@ -62,7 +62,10 @@ REM ======================================================
 REM   --------------- Visual c++ -------------------------
 REM ======================================================
 REM for now just VS2015 and VS2017
-if exist "C:\Program files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" set VCVERSION=14.0
+if exist "C:\Program files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" (
+    set VCVERSION=14.0
+    set "VCVARALLDIR=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
+)
 
 REM for VS2017 the install is different for the 'free' version and the 'pro' version
 if exist "C:\Program files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build" (
@@ -74,12 +77,16 @@ if exist "C:\Program files (x86)\Microsoft Visual Studio\2017\Professional\VC\Au
     set "VCVARALLDIR=C:\Program files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build"
 )
 
-if exist "C:\Program files (x86)\Microsoft Visual Studio %VCVERSION%\VC\vcvarsall.bat" (
-    if exist "C:\Program files (x86)\Microsoft Visual Studio %VCVERSION%\VC\bin\amd64\cl.exe" (
+if exist "%VCVARALLDIR%\VC\vcvarsall.bat" (
+    if "%EPICS_HOST_ARCH:~0,11%" == "windows-x64" (
         @echo Using Visual Studio %VCVERSION% x64 compiler
-        call "C:\Program files (x86)\Microsoft Visual Studio %VCVERSION%\VC\vcvarsall.bat" x64
+        call "%VCVARALLDIR%\vcvarsall.bat" x64
+    )    
+    if "%EPICS_HOST_ARCH:~0,9%" == "win32-x86" (
+        @echo Using Visual Studio %VCVERSION% x86 compiler
+        call "%VCVARALLDIR%\vcvarsall.bat" x86
     ) else (
-        @echo Could not find Visual Studio %VCVERSION% x64 compilier
+        @echo Could not find correct compiler architecture for Visual Studio %VCVERSION%
     )
 ) else (
     @echo Could not find Visual Studio %VCVERSION% vcvarsall.bat
