@@ -63,22 +63,26 @@ class EpicsbaseConan(ConanFile):
             self._add_darwin_config()
         elif tools.os_info.is_windows:
             self._add_windows_config()
-            self._build_windows()
-            return
 
         with tools.chdir(EPICS_BASE_DIR):
-            base_build = AutoToolsBuildEnvironment(self)
-            base_build.make()
+            if tools.os_info.is_windows:
+                self.run("build_win32.bat")
+            else:
+                base_build = AutoToolsBuildEnvironment(self)
+                base_build.make()
 
-        os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
-        os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
+        # os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
+        # os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
 
         # Build EPICS V4
         self._edit_epics_v4_makefile()
         os.environ["EPICS_BASE"] = os.path.join(os.getcwd(), EPICS_BASE_DIR)
         with tools.chdir(EPICS_V4_DIR):
-            v4_build = AutoToolsBuildEnvironment(self)
-            v4_build.make()
+            if tools.os_info.is_windows:
+                self.run("make EPICS_BASE={}".format(os.environ["EPICS_BASE"]))
+            else:
+                v4_build = AutoToolsBuildEnvironment(self)
+                v4_build.make()
 
     def _add_linux_config(self):
         shutil.copyfile(
@@ -138,8 +142,9 @@ class EpicsbaseConan(ConanFile):
         )
 
     def _build_windows(self):
-        with tools.chdir(EPICS_BASE_DIR):
-            self.run("build_win32.bat")
+            
+        with tools.chdir(EPICS_V4_DIR):
+            self.run("make")
 
     def _edit_epics_v4_makefile(self):
         tools.replace_in_file(
