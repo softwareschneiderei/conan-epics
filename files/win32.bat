@@ -81,12 +81,13 @@ if exist "%VCVARALLDIR%\vcvarsall.bat" (
     if "%EPICS_HOST_ARCH:~0,11%" == "windows-x64" (
         @echo Using Visual Studio %VCVERSION% x64 compiler
         call "%VCVARALLDIR%\vcvarsall.bat" x64
-    )    
-    if "%EPICS_HOST_ARCH:~0,9%" == "win32-x86" (
-        @echo Using Visual Studio %VCVERSION% x86 compiler
-        call "%VCVARALLDIR%\vcvarsall.bat" x86
-    ) else (
-        @echo Could not find correct compiler architecture for Visual Studio %VCVERSION%
+    ) else (   
+        if "%EPICS_HOST_ARCH:~0,9%" == "win32-x86" (
+            @echo Using Visual Studio %VCVERSION% x86 compiler
+            call "%VCVARALLDIR%\vcvarsall.bat" x86
+        ) else (
+            @echo Could not find correct compiler architecture for Visual Studio %VCVERSION%
+        )
     )
 ) else (
     @echo Could not find Visual Studio %VCVERSION% vcvarsall.bat
