@@ -77,7 +77,7 @@ if exist "C:\Program files (x86)\Microsoft Visual Studio\2017\Professional\VC\Au
     set "VCVARALLDIR=C:\Program files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build"
 )
 
-if exist "%VCVARALLDIR%\VC\vcvarsall.bat" (
+if exist "%VCVARALLDIR%\vcvarsall.bat" (
     if "%EPICS_HOST_ARCH:~0,11%" == "windows-x64" (
         @echo Using Visual Studio %VCVERSION% x64 compiler
         call "%VCVARALLDIR%\vcvarsall.bat" x64
