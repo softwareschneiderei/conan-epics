@@ -147,6 +147,8 @@ def get_macos_pipeline() {
 def get_win10_pipeline() {
   return {
     node ("windows10") {
+      // Use custom location to avoid Win32 path length issues
+    ws('c:\\jenkins\\') {
       cleanWs()
       dir("${project}") {
         stage("windows10: Checkout") {
@@ -179,6 +181,7 @@ def get_win10_pipeline() {
         //     ${conan_pkg_channel}"
         // }  // stage
       }  // dir
+      }
     }  // node
   }  // return
 }  // def
