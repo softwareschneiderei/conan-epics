@@ -73,8 +73,8 @@ class EpicsbaseConan(ConanFile):
                 base_build = AutoToolsBuildEnvironment(self)
                 base_build.make()
 
-        # os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
-        # os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
+        os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
+        os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
 
         # Build EPICS V4
         self._edit_epics_v4_makefile()
