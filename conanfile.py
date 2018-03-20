@@ -133,7 +133,7 @@ class EpicsbaseConan(ConanFile):
     def _add_windows_config(self):
         shutil.copyfile(
             os.path.join(self.source_folder, "files", "win32.bat"),
-            os.path.join(EPICS_BASE_DIR, "win32.bat")
+            os.path.join(EPICS_BASE_DIR, "../", "win32.bat")
         )
 
         shutil.copyfile(
