@@ -79,7 +79,7 @@ class EpicsbaseConan(ConanFile):
         os.environ["EPICS_BASE"] = os.path.join(os.getcwd(), EPICS_BASE_DIR)
         with tools.chdir(EPICS_V4_DIR):
             if tools.os_info.is_windows:
-                self.run("make EPICS_BASE={}".format(os.environ["EPICS_BASE"]))
+                self.run("build_v4.bat {}".format(os.environ["EPICS_BASE"]))
             else:
                 v4_build = AutoToolsBuildEnvironment(self)
                 v4_build.make()
