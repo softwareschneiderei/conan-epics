@@ -63,10 +63,12 @@ class EpicsbaseConan(ConanFile):
             self._add_darwin_config()
         elif tools.os_info.is_windows:
             self._add_windows_config()
+            with tools.chdir(EPICS_BASE_DIR + '/startup'):
+                self.run("startup/win32.bat")
 
         with tools.chdir(EPICS_BASE_DIR):
             if tools.os_info.is_windows:
-                self.run("startup/win32.bat")
+                self.run("make")
             else:
                 base_build = AutoToolsBuildEnvironment(self)
                 base_build.make()
