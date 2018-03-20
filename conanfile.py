@@ -166,6 +166,7 @@ class EpicsbaseConan(ConanFile):
         base_bin_dir = os.path.join(EPICS_BASE_DIR, "bin", arch)
         for b in EPICS_BASE_BINS:
             self.copy(b, dst="bin", src=base_bin_dir)
+        self.copy("*.dll", dst="bin", src=base_bin_dir)
         self.copy("*", dst="include", src=os.path.join(EPICS_BASE_DIR, "include"),
                   excludes="valgrind/*", keep_path=False)
         self.copy("*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib", arch))
@@ -175,6 +176,7 @@ class EpicsbaseConan(ConanFile):
         for d in EPICS_V4_SUBDIRS:
             self.copy("*", dst="include", src=os.path.join(EPICS_V4_DIR, d, "include"))
             self.copy("*", dst="lib", src=os.path.join(EPICS_V4_DIR, d, "lib", arch))
+            self.copy("*.dll", dst="bin", src=os.path.join(EPICS_V4_DIR, d, "bin", arch))
         v4_bin_dir = os.path.join(EPICS_V4_DIR, "pvAccessCPP", "bin", arch)
         for b in EPICS_V4_BINS:
             self.copy(b, dst="bin", src=v4_bin_dir)
