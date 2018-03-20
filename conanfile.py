@@ -140,11 +140,12 @@ class EpicsbaseConan(ConanFile):
             os.path.join(self.source_folder, "files", "build_win32.bat"),
             os.path.join(EPICS_BASE_DIR, "build_win32.bat")
         )
-
-    def _build_windows(self):
-            
-        with tools.chdir(EPICS_V4_DIR):
-            self.run("make")
+        
+        # On win32 don't build the examples as they fail to build
+        shutil.copyfile(
+            os.path.join(self.source_folder, "files", "Makefile"),
+            os.path.join(EPICS_V4_DIR, "Makefile")
+        )
 
     def _edit_epics_v4_makefile(self):
         tools.replace_in_file(
