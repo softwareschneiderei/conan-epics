@@ -12,7 +12,7 @@ The win32.bat file in this repository is intended to be a drop-in replacement to
 
 It requires the following items to be installed:
 
-    GNU Make for Windows (http://gnuwin32.sourceforge.net/packages/make.htm)
+    GNU Make for Windows (version 4.2 or higher)
     Strawberry Perl (64-bit) (http://strawberryperl.com/)
     Visual Studio 2015 or 2017
 
