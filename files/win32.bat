@@ -39,7 +39,7 @@ REM set PATH=C:\mingw-make\bin;%PATH%
 REM set PATH=C:\mingw-make82-3\bin;%PATH%
 
 REM   --------------- gnuwin32 make ----------------------
-REM set PATH=C:\gnuwin32\bin;%PATH%
+set PATH=C:\gnumake\bin;%PATH%
 
 REM ======================================================
 REM ---------------- cygwin tools ------------------------
