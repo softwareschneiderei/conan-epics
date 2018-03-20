@@ -56,7 +56,7 @@ REM --------------- EPICS --------------------------------
 REM ======================================================
 REM default to x64
 if "%EPICS_HOST_ARCH%" == "" (
-set EPICS_HOST_ARCH=windows-x64
+    set EPICS_HOST_ARCH=windows-x64
 )
 
 REM ======================================================
