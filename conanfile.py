@@ -66,7 +66,7 @@ class EpicsbaseConan(ConanFile):
 
         with tools.chdir(EPICS_BASE_DIR):
             if tools.os_info.is_windows:
-                self.run("build_win32.bat")
+                self.run("startup/win32.bat")
             else:
                 base_build = AutoToolsBuildEnvironment(self)
                 base_build.make()
