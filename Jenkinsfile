@@ -144,15 +144,58 @@ def get_macos_pipeline() {
   }  // return
 }  // def
 
+def get_win10_pipeline() {
+  return {
+    node ("windows10") {
+      // Use custom location to avoid Win32 path length issues
+    ws('c:\\jenkins\\') {
+      cleanWs()
+      dir("${project}") {
+        stage("windows10: Checkout") {
+          checkout scm
+        }  // stage
+
+        stage("windows10: Conan setup") {
+          withCredentials([
+            string(
+              credentialsId: 'local-conan-server-password',
+              variable: 'CONAN_PASSWORD'
+            )
+          ]) {
+            bat """conan user \
+              --password ${CONAN_PASSWORD} \
+              --remote ${conan_remote} \
+              ${conan_user}"""
+          }  // withCredentials
+        }  // stage
+
+        stage("windows10: Package") {
+          bat """conan create . ${conan_user}/${conan_pkg_channel} \
+            --build=outdated"""
+        }  // stage
+
+        // stage("windows10: Upload") {
+        //   sh "upload_conan_package.sh conanfile.py \
+        //     ${conan_remote} \
+        //     ${conan_user} \
+        //     ${conan_pkg_channel}"
+        // }  // stage
+      }  // dir
+      }
+    }  // node
+  }  // return
+}  // def
+
 node {
   checkout scm
 
   def builders = [:]
-  for (x in images.keySet()) {
-    def image_key = x
-    builders[image_key] = get_pipeline(image_key)
+    for (x in images.keySet()) {
+      def image_key = x
+      builders[image_key] = get_pipeline(image_key)
   }
   builders['macOS'] = get_macos_pipeline()
+  builders['windows10'] = get_win10_pipeline()
   parallel builders
 
   // Delete workspace when build is done.
