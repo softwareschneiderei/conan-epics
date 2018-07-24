@@ -17,7 +17,7 @@ EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput", "testServer")
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0-dm5"
+    version = "3.16.1-4.6.0-dm6"
     license = "EPICS Open license and https://github.com/epics-base/bundleCPP/blob/4.6.0/LICENSE"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
@@ -131,6 +131,11 @@ class EpicsbaseConan(ConanFile):
         )
 
     def _add_windows_config(self):
+        shutil.copyfile(
+            os.path.join(self.source_folder, "files", "CONFIG_SITE.local.win32"),
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
+        )
+
         shutil.copyfile(
             os.path.join(self.source_folder, "files", "win32.bat"),
             os.path.join(EPICS_BASE_DIR, "../", "win32.bat")

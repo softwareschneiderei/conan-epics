@@ -2,17 +2,17 @@ project = "conan-epics"
 
 conan_remote = "ess-dmsc-local"
 conan_user = "ess-dmsc"
-conan_pkg_channel = "stable"
+conan_pkg_channel = "testing"
 
 remote_upload_node = "centos7"
 
 images = [
   'centos7': [
-    'name': 'essdmscdm/centos7-build-node:3.0.0',
+    'name': 'essdmscdm/centos7-build-node:3.1.0',
     'sh': '/usr/bin/scl enable devtoolset-6 -- /bin/bash -e'
   ],
   'debian9': [
-    'name': 'essdmscdm/debian9-build-node:2.0.0',
+    'name': 'essdmscdm/debian9-build-node:2.1.0',
     'sh': 'bash -e'
   ],
   'ubuntu1804': [
