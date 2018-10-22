@@ -24,7 +24,7 @@ class EpicsbaseConan(ConanFile):
     exports = "files/*"
     settings = "os", "compiler"
     options = {"shared": [True, False]}
-    default_options = {"shared": False}
+    default_options = "shared=False"
     generators = "cmake"
     # For Windows use short paths (ignored for other OS's)
     short_paths=True
