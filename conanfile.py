@@ -30,7 +30,7 @@ class EpicsbaseConan(ConanFile):
     short_paths=True
 
     def configure(self):
-        if not self.os_info.is_linux:
+        if not tools.os_info.is_linux:
             self.options.remove("shared")
 
     def source(self):
