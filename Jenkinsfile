@@ -71,7 +71,7 @@ def get_macos_pipeline() {
             --build=outdated"
         }  // stage
 
-        if (conan_pkg_channel == "stable" && env.BRANCH_NAME == "master")
+        if (conan_pkg_channel == "stable" && env.BRANCH_NAME == "master") {
           stage("macOS: Upload") {
             sh "upload_conan_package.sh conanfile.py \
               ${conan_remote} \
