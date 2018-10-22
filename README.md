@@ -17,3 +17,7 @@ It requires the following items to be installed:
     Visual Studio 2015 or 2017
 
 And it expects make and perl to be in the path.
+
+## Limitations
+
+The `shared` option is only available on Linux.

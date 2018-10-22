@@ -17,15 +17,21 @@ EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput", "testServer")
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0-dm6"
+    version = "3.16.1-4.6.0-dm7"
     license = "EPICS Open license and https://github.com/epics-base/bundleCPP/blob/4.6.0/LICENSE"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base and V4"
     exports = "files/*"
     settings = "os", "compiler"
+    options = {"shared": [True, False]}
+    default_options = {"shared": False}
     generators = "cmake"
     # For Windows use short paths (ignored for other OS's)
     short_paths=True
+
+    def configure(self):
+        if not self.os_info.is_linux:
+            self.options.remove("shared")
 
     def source(self):
         self._get_epics_base_src()
@@ -89,11 +95,23 @@ class EpicsbaseConan(ConanFile):
             os.path.join(self.source_folder, "files", "CONFIG_SITE.local.linux"),
             os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
         )
+
+        if self.options.shared:
+            shared_option_sub = "STATIC_BUILD = NO\nSHARED_LIBRARIES = YES"
+        else:
+            shared_option_sub = "STATIC_BUILD = YES\nSHARED_LIBRARIES = NO"
+        tools.replace_in_file(
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local"),
+            "<static_or_shared>",
+            shared_option_sub
+        )
+
         tools.replace_in_file(
             os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
             "COMMANDLINE_LIBRARY = READLINE",
             "COMMANDLINE_LIBRARY = EPICS"
         )
+
         if self.settings.compiler == "gcc" and self._using_devtoolset():
             self._set_path_to_devtoolset_gnu()
 

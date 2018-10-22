@@ -6,7 +6,7 @@ project = "conan-epics"
 
 conan_remote = "ess-dmsc-local"
 conan_user = "ess-dmsc"
-conan_pkg_channel = "stable"
+conan_pkg_channel = "testing"
 
 containerBuildNodes = [
   'centos': ContainerBuildNode.getDefaultContainerBuildNode('centos7'),
@@ -19,6 +19,12 @@ packageBuilder.defineRemoteUploadNode('centos')
 
 builders = packageBuilder.createPackageBuilders { container ->
   packageBuilder.addConfiguration(container)
+
+  packageBuilder.addConfiguration(container, [
+    'options': [
+      'epics:shared': 'True'
+    ]
+  ])
 }
 
 node {

@@ -1,4 +1,4 @@
-STATIC_BUILD = YES
+<static_or_shared>
 LINKER_USE_RPATH = NO
 
 BIN_PERMISSIONS = 755
