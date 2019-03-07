@@ -1,0 +1,12 @@
+find_path(EPICS_INCLUDE_DIR NAMES epicsVersion.h PATHS ${CONAN_INCLUDE_DIRS_EPICS})
+find_library(EPICS_LIBRARY NAMES ${CONAN_LIBS_EPICS} PATHS ${CONAN_LIB_DIRS_EPICS})
+
+set(EPICS_FOUND TRUE)  
+set(EPICS_LIBRARIES ${EPICS_LIBRARY})
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(EPICS DEFAULT_MSG
+    EPICS_INCLUDE_DIR
+    EPICS_LIBRARIES
+    EPICS_LIBRARY
+)

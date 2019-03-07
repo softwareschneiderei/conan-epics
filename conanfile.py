@@ -15,7 +15,7 @@ class EpicsbaseConan(ConanFile):
     license = "EPICS Open license"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base version 7"
-    exports = "files/*"
+    exports = ["files/*", "FindEPICS.cmake"]
     settings = "os", "compiler"
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -153,6 +153,8 @@ class EpicsbaseConan(ConanFile):
         self.copy("pkgconfig/*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib"))
 
         self.copy("LICENSE.*")
+        
+        self.copy("FindEPICS.cmake", ".", ".")
 
     def package_info(self):
         self.cpp_info.libs = [
