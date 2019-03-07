@@ -18,6 +18,29 @@ It requires the following items to be installed:
 
 And it expects make and perl to be in the path.
 
+## Updating the conan package
+
+Follow these instructions:
+
+1. Edit line 14 of the *conanfile.py*-file to set the version of the new conan package.
+
+2. Edit line 6 of the *conanfile.py*-file to the version of EPICS base that you want to package.
+
+3. When in the directory of the local copy of *conan-graylog-logger*, execute this command:
+
+	```
+	conan create . epics/x.y.z-dm1@ess-dmsc/stable
+	```
+	Where **x.y.z-dm1** is the same version string as set on line 14 in the *conanfile.py*-file.
+
+4. Upload the new package to the relevant conan package repository by executing:
+
+	```
+	conan upload epics/x.y.z-dm1@ess-dmsc/stable --remote alias_of_repository
+	```
+
+	Where **x.y.z-dm1** is the version of the conan package as mentioned above and **alias\_of\_repository** is exactly what it says. You can list all the repositories that your local conan installation is aware of by running: `conan remote list`.
+
 ## Limitations
 
 The `shared` option is only available on Linux.

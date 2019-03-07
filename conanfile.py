@@ -3,24 +3,18 @@ import shutil
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 
 
-EPICS_BASE_VERSION = "3.16.1"
+EPICS_BASE_VERSION = "7.0.2"
 EPICS_BASE_DIR = "base-" + EPICS_BASE_VERSION
 # Binaries to include in package
-EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput")
-
-EPICS_V4_VERSION = "4.6.0"
-EPICS_V4_DIR = "EPICS-CPP-" + EPICS_V4_VERSION
-EPICS_V4_SUBDIRS = ("normativeTypesCPP", "pvAccessCPP", "pvCommonCPP",
-                    "pvDataCPP", "pvDatabaseCPP", "pvaClientCPP", "pvaSrv")
-EPICS_V4_BINS = ("eget", "pvget", "pvinfo", "pvlist", "pvput", "testServer")
+EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput", "pvget", "pvinfo", "pvlist", "pvput")
 
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "3.16.1-4.6.0-dm7"
-    license = "EPICS Open license and https://github.com/epics-base/bundleCPP/blob/4.6.0/LICENSE"
+    version = "7.0.2-dm1"
+    license = "EPICS Open license"
     url = "https://github.com/ess-dmsc/conan-epics-base"
-    description = "EPICS Base and V4"
+    description = "EPICS Base version 7"
     exports = "files/*"
     settings = "os", "compiler"
     options = {"shared": [True, False]}
@@ -35,7 +29,6 @@ class EpicsbaseConan(ConanFile):
 
     def source(self):
         self._get_epics_base_src()
-        self._get_epics_v4_src()
 
     def _get_epics_base_src(self):
         tools.download(
@@ -44,22 +37,10 @@ class EpicsbaseConan(ConanFile):
         )
         tools.check_sha256(
             "{}.tar.gz".format(EPICS_BASE_DIR),
-            "fc01ff8505871b9fa7693a4d5585667587105f34ec5e16a207d07b704d1dc5ed"
+            "63825d46ab59c4e67b7f3f0e6b1a84073640c2ce6d079da913cddfb1488f1fc2"
         )
         tools.unzip("{}.tar.gz".format(EPICS_BASE_DIR))
         os.unlink("{}.tar.gz".format(EPICS_BASE_DIR))
-
-    def _get_epics_v4_src(self):
-        tools.download(
-            "https://sourceforge.net/projects/epics-pvdata/files/{}/{}.tar.gz/download".format(EPICS_V4_VERSION, EPICS_V4_DIR),
-            "{}.tar.gz".format(EPICS_V4_DIR)
-        )
-        tools.check_sha256(
-            "{}.tar.gz".format(EPICS_V4_DIR),
-            "fc369a1663b197cce23b47762bf3e1aadc49677e01be5063885160de79df6d9c"
-        )
-        tools.unzip("{}.tar.gz".format(EPICS_V4_DIR))
-        os.unlink("{}.tar.gz".format(EPICS_V4_DIR))
 
     def build(self):
         # Build EPICS Base
@@ -78,17 +59,6 @@ class EpicsbaseConan(ConanFile):
                 base_build.make()
 
         os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
-        os.rename(os.path.join(EPICS_V4_DIR, "LICENSE"), "LICENSE.EPICSV4")
-
-        # Build EPICS V4
-        self._edit_epics_v4_makefile()
-        os.environ["EPICS_BASE"] = os.path.join(os.getcwd(), EPICS_BASE_DIR)
-        with tools.chdir(EPICS_V4_DIR):
-            if tools.os_info.is_windows:
-                self.run("build_v4.bat {}".format(os.environ["EPICS_BASE"]))
-            else:
-                v4_build = AutoToolsBuildEnvironment(self)
-                v4_build.make()
 
     def _add_linux_config(self):
         shutil.copyfile(
@@ -164,24 +134,6 @@ class EpicsbaseConan(ConanFile):
             os.path.join(EPICS_BASE_DIR, "build_win32.bat")
         )
 
-        shutil.copyfile(
-            os.path.join(self.source_folder, "files", "build_v4.bat"),
-            os.path.join(EPICS_V4_DIR, "build_v4.bat")
-        )
-
-        # On win32 don't build the examples as they fail to build
-        shutil.copyfile(
-            os.path.join(self.source_folder, "files", "Makefile"),
-            os.path.join(EPICS_V4_DIR, "Makefile")
-        )
-
-    def _edit_epics_v4_makefile(self):
-        tools.replace_in_file(
-            os.path.join(EPICS_V4_DIR, "Makefile"),
-            "MODULES += exampleCPP",
-            "#MODULES += exampleCPP"
-        )
-
     def package(self):
         if tools.os_info.is_linux:
             arch = "linux-x86_64"
@@ -200,30 +152,20 @@ class EpicsbaseConan(ConanFile):
         self.copy("*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib", arch))
         self.copy("pkgconfig/*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib"))
 
-        # Package EPICS V4
-        for d in EPICS_V4_SUBDIRS:
-            self.copy("*", dst="include", src=os.path.join(EPICS_V4_DIR, d, "include"))
-            self.copy("*", dst="lib", src=os.path.join(EPICS_V4_DIR, d, "lib", arch))
-            self.copy("*.dll", dst="bin", src=os.path.join(EPICS_V4_DIR, d, "bin", arch))
-        v4_bin_dir = os.path.join(EPICS_V4_DIR, "pvAccessCPP", "bin", arch)
-        for b in EPICS_V4_BINS:
-            self.copy(b, dst="bin", src=v4_bin_dir)
-
         self.copy("LICENSE.*")
 
     def package_info(self):
         self.cpp_info.libs = [
             "Com",
             "ca",
-            "cas",
             "dbCore",
             "dbRecStd",
-            "gdd",
             "nt",
             "pvAccess",
-            "pvaClient",
-            "pvaSrv",
-            "pvMB",
+            "pvAccessCA",
+            "pvAccessIOC",
+            "pvData",
             "pvDatabase",
-            "pvData"
+            "pvaClient",
+            "qsrv",
         ]
