@@ -148,7 +148,7 @@ class EpicsbaseConan(ConanFile):
             self.copy(b, dst="bin", src=base_bin_dir)
         self.copy("*.dll", dst="bin", src=base_bin_dir)
         self.copy("*", dst="include", src=os.path.join(EPICS_BASE_DIR, "include"),
-                  excludes="valgrind/*", keep_path=False)
+                  excludes="valgrind/*", keep_path=True)
         self.copy("*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib", arch))
         self.copy("pkgconfig/*", dst="lib", src=os.path.join(EPICS_BASE_DIR, "lib"))
 

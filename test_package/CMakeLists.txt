@@ -7,4 +7,5 @@ conan_basic_setup(SKIP_RPATH)
 find_package(EPICS REQUIRED)
 
 add_executable(example example.cpp)
-target_link_libraries(example ${CONAN_LIBS})
+target_link_libraries(example ${CONAN_LIBS} ${EPICS_LIBRARIES})
+target_include_directories(example PRIVATE ${EPICS_INCLUDE_DIR})
