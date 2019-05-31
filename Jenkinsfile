@@ -23,7 +23,7 @@ builders = packageBuilder.createPackageBuilders { container ->
 
   packageBuilder.addConfiguration(container, [
     'options': [
-      'epics:shared': 'True'
+      'epics:shared': 'False'
     ]
   ])
 }
