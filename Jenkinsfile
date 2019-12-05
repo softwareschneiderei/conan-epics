@@ -4,7 +4,6 @@ import ecdcpipeline.ConanPackageBuilder
 
 project = "conan-epics"
 
-conan_remote = "ess-dmsc-local"
 conan_user = "ess-dmsc"
 conan_pkg_channel = "testing"
 
@@ -40,15 +39,6 @@ node {
   cleanWs()
 }
 
-if (conan_pkg_channel == "stable") {
-  if (env.BRANCH_NAME != "master") {
-    error("Only the master branch can create a package for the stable channel")
-  }
-  conan_upload_flag = "--no-overwrite"
-} else {
-  conan_upload_flag = ""
-}
-
 def get_macos_pipeline() {
   return {
     node('macos') {
@@ -58,34 +48,10 @@ def get_macos_pipeline() {
           checkout scm
         }  // stage
 
-        stage("macOS: Conan setup") {
-          withCredentials([
-            string(
-              credentialsId: 'local-conan-server-password',
-              variable: 'CONAN_PASSWORD'
-            )
-          ]) {
-            sh "conan user \
-              --password '${CONAN_PASSWORD}' \
-              --remote ${conan_remote} \
-              ${conan_user} \
-              > /dev/null"
-          }  // withCredentials
-        }  // stage
-
         stage("macOS: Package") {
           sh "conan create . ${conan_user}/${conan_pkg_channel} \
             --build=outdated"
         }  // stage
-
-        if (conan_pkg_channel == "stable" && env.BRANCH_NAME == "master") {
-          stage("macOS: Upload") {
-            sh "upload_conan_package.sh conanfile.py \
-              ${conan_remote} \
-              ${conan_user} \
-              ${conan_pkg_channel}"
-          }  // stage
-        }  // if
       }  // dir
     }  // node
   }  // return
@@ -102,33 +68,12 @@ def get_win10_pipeline() {
           checkout scm
         }  // stage
 
-        stage("windows10: Conan setup") {
-          withCredentials([
-            string(
-              credentialsId: 'local-conan-server-password',
-              variable: 'CONAN_PASSWORD'
-            )
-          ]) {
-            bat """conan user \
-              --password ${CONAN_PASSWORD} \
-              --remote ${conan_remote} \
-              ${conan_user}"""
-          }  // withCredentials
-        }  // stage
-
         stage("windows10: Package") {
           bat """conan create . ${conan_user}/${conan_pkg_channel} \
             --build=outdated"""
         }  // stage
-
-        // stage("windows10: Upload") {
-        //   sh "upload_conan_package.sh conanfile.py \
-        //     ${conan_remote} \
-        //     ${conan_user} \
-        //     ${conan_pkg_channel}"
-        // }  // stage
       }  // dir
-      }
+      }  // ws
     }  // node
   }  // return
 }  // def
