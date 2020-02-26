@@ -22,18 +22,20 @@ And it expects make and perl to be in the path.
 
 Follow these instructions:
 
-1. Edit line 14 of the *conanfile.py*-file to set the version of the new conan package.
+1. Edit line 6 of the *conanfile.py*-file to the version of EPICS base that you want to package.
 
-2. Edit line 6 of the *conanfile.py*-file to the version of EPICS base that you want to package.
+2. Edit line 14 of the *conanfile.py*-file to set the version of the new conan package.
 
-3. When in the directory of the local copy of *conan-graylog-logger*, execute this command:
+3. Edit line 40 of the *conanfile.py*-file to set the hash of the compressed file. The hash can be determined from running the command `shasum -a 256 base-x.y.z.tar.gz`.
+
+4. When in the directory of the local copy of *conan-epics*, execute this command:
 
 	```
 	conan create . epics/x.y.z-dm1@ess-dmsc/stable
 	```
 	Where **x.y.z-dm1** is the same version string as set on line 14 in the *conanfile.py*-file.
 
-4. Upload the new package to the relevant conan package repository by executing:
+5. Upload the new package to the relevant conan package repository by executing:
 
 	```
 	conan upload epics/x.y.z-dm1@ess-dmsc/stable --remote alias_of_repository

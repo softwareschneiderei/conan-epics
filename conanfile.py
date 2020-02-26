@@ -3,7 +3,7 @@ import shutil
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 
 
-EPICS_BASE_VERSION = "7.0.2"
+EPICS_BASE_VERSION = "7.0.3.1"
 EPICS_BASE_DIR = "base-" + EPICS_BASE_VERSION
 # Binaries to include in package
 EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput", "pvget", "pvinfo", "pvlist", "pvput")
@@ -11,7 +11,7 @@ EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput", "pvget
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "7.0.2-dm1"
+    version = "7.0.3.1-dm1"
     license = "EPICS Open license"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base version 7"
@@ -37,7 +37,7 @@ class EpicsbaseConan(ConanFile):
         )
         tools.check_sha256(
             "{}.tar.gz".format(EPICS_BASE_DIR),
-            "63825d46ab59c4e67b7f3f0e6b1a84073640c2ce6d079da913cddfb1488f1fc2"
+            "1de65638a806be6c0eebc0b7840ed9dd1a1a7879bcb6ab0da88a1e8e456b709c"
         )
         tools.unzip("{}.tar.gz".format(EPICS_BASE_DIR))
         os.unlink("{}.tar.gz".format(EPICS_BASE_DIR))
