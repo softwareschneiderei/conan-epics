@@ -5,7 +5,8 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(SKIP_RPATH)
 
 find_package(EPICS REQUIRED)
+find_package(Threads REQUIRED)
 
 add_executable(example example.cpp)
-target_link_libraries(example ${CONAN_LIBS} ${EPICS_LIBRARIES})
+target_link_libraries(example ${CONAN_LIBS} ${EPICS_LIBRARIES} Threads::Threads)
 target_include_directories(example PRIVATE ${EPICS_INCLUDE_DIR})
