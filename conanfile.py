@@ -61,20 +61,21 @@ class EpicsbaseConan(ConanFile):
         os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
 
     def _add_linux_config(self):
-        shutil.copyfile(
-            os.path.join(self.source_folder, "files", "CONFIG_SITE.local.linux"),
-            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
-        )
-
-        if self.options.shared:
-            shared_option_sub = "STATIC_BUILD = NO\nSHARED_LIBRARIES = YES"
-        else:
-            shared_option_sub = "STATIC_BUILD = YES\nSHARED_LIBRARIES = NO"
-        tools.replace_in_file(
-            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local"),
-            "<static_or_shared>",
-            shared_option_sub
-        )
+        pass
+        # shutil.copyfile(
+        #     os.path.join(self.source_folder, "files", "CONFIG_SITE.local.linux"),
+        #     os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
+        # )
+        #
+        # if self.options.shared:
+        #     shared_option_sub = "STATIC_BUILD = NO\nSHARED_LIBRARIES = YES"
+        # else:
+        #     shared_option_sub = "STATIC_BUILD = YES\nSHARED_LIBRARIES = NO"
+        # tools.replace_in_file(
+        #     os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local"),
+        #     "<static_or_shared>",
+        #     shared_option_sub
+        # )
 
         # tools.replace_in_file(
         #     os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
@@ -82,8 +83,8 @@ class EpicsbaseConan(ConanFile):
         #     "COMMANDLINE_LIBRARY = EPICS"
         # )
 
-        if self.settings.compiler == "gcc" and self._using_devtoolset():
-            self._set_path_to_devtoolset_gnu()
+        # if self.settings.compiler == "gcc" and self._using_devtoolset():
+        #     self._set_path_to_devtoolset_gnu()
 
     def _using_devtoolset(self):
         gcc_path = tools.which("gcc")
