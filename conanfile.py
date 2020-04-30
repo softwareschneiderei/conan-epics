@@ -11,7 +11,7 @@ EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput", "pvget
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "7.0.3.1-dm1"
+    version = "7.0.3.1-dm2"
     license = "EPICS Open license"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base version 7"
