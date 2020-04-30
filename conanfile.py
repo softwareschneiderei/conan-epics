@@ -76,11 +76,11 @@ class EpicsbaseConan(ConanFile):
             shared_option_sub
         )
 
-        tools.replace_in_file(
-            os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
-            "COMMANDLINE_LIBRARY = READLINE",
-            "COMMANDLINE_LIBRARY = EPICS"
-        )
+        # tools.replace_in_file(
+        #     os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
+        #     "COMMANDLINE_LIBRARY = READLINE",
+        #     "COMMANDLINE_LIBRARY = EPICS"
+        # )
 
         if self.settings.compiler == "gcc" and self._using_devtoolset():
             self._set_path_to_devtoolset_gnu()
