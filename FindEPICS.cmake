@@ -1,6 +1,6 @@
 find_path(EPICS_INCLUDE_DIR NAMES epicsVersion.h)
-find_path(EPICS_INCLUDE_OS_DIR NAMES osdEvent.h HINTS ${EPICS_INCLUDE_DIR}/os/Linux ${EPICS_INCLUDE_DIR}/os/Darwin)
-find_path(EPICS_INCLUDE_COMP_DIR NAMES compilerSpecific.h HINTS ${EPICS_INCLUDE_DIR}/compiler/gcc ${EPICS_INCLUDE_DIR}/compiler/clang)
+find_path(EPICS_INCLUDE_OS_DIR NAMES osdEvent.h HINTS ${EPICS_INCLUDE_DIR}/os/Linux ${EPICS_INCLUDE_DIR}/os/Darwin ${EPICS_INCLUDE_DIR}/os/win32)
+find_path(EPICS_INCLUDE_COMP_DIR NAMES compilerSpecific.h HINTS ${EPICS_INCLUDE_DIR}/compiler/gcc ${EPICS_INCLUDE_DIR}/compiler/clang ${EPICS_INCLUDE_DIR}/compiler/msvc)
 
 set(EPICS_INCLUDE_DIR ${EPICS_INCLUDE_DIR} ${EPICS_INCLUDE_OS_DIR} ${EPICS_INCLUDE_COMP_DIR})
 

@@ -62,29 +62,6 @@ class EpicsbaseConan(ConanFile):
 
     def _add_linux_config(self):
         pass
-        # shutil.copyfile(
-        #     os.path.join(self.source_folder, "files", "CONFIG_SITE.local.linux"),
-        #     os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local")
-        # )
-        #
-        # if self.options.shared:
-        #     shared_option_sub = "STATIC_BUILD = NO\nSHARED_LIBRARIES = YES"
-        # else:
-        #     shared_option_sub = "STATIC_BUILD = YES\nSHARED_LIBRARIES = NO"
-        # tools.replace_in_file(
-        #     os.path.join(EPICS_BASE_DIR, "configure", "CONFIG_SITE.local"),
-        #     "<static_or_shared>",
-        #     shared_option_sub
-        # )
-
-        # tools.replace_in_file(
-        #     os.path.join(EPICS_BASE_DIR, "configure", "os", "CONFIG_SITE.Common.linux-x86_64"),
-        #     "COMMANDLINE_LIBRARY = READLINE",
-        #     "COMMANDLINE_LIBRARY = EPICS"
-        # )
-
-        # if self.settings.compiler == "gcc" and self._using_devtoolset():
-        #     self._set_path_to_devtoolset_gnu()
 
     def _using_devtoolset(self):
         gcc_path = tools.which("gcc")
@@ -92,21 +69,6 @@ class EpicsbaseConan(ConanFile):
             return 'devtoolset' in gcc_path
         else:
             return False
-
-    def _set_path_to_devtoolset_gnu(self):
-        gcc_path = tools.which("gcc")
-        path_to_gnu_bin = os.path.split(gcc_path)[0]
-        path_to_gnu = os.path.split(path_to_gnu_bin)[0]
-        tools.replace_in_file(
-            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
-            "GNU_BIN = $(GNU_DIR)/bin",
-            "GNU_BIN = {}/bin".format(path_to_gnu)
-        )
-        tools.replace_in_file(
-            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
-            "GNU_LIB = $(GNU_DIR)/lib",
-            "GNU_LIB = {}/lib".format(path_to_gnu)
-        )
 
     def _add_darwin_config(self):
         shutil.copyfile(

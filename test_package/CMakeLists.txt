@@ -8,8 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
 find_package(EPICS REQUIRED)
 find_package(Threads REQUIRED)
-# find_package(Readline)
 
 add_executable(example example.cpp)
-target_link_libraries(example ${CONAN_LIBS} ${EPICS_LIBRARIES} Threads::Threads ${CMAKE_DL_LIBS})# ${Readline_LIBRARY})
+target_link_libraries(example ${CONAN_LIBS} ${EPICS_LIBRARIES} Threads::Threads ${CMAKE_DL_LIBS})
 target_include_directories(example PRIVATE ${EPICS_INCLUDE_DIR})
