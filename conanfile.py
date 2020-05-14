@@ -11,7 +11,7 @@ EPICS_BASE_BINS = ("caRepeater", "caget", "cainfo", "camonitor", "caput", "pvget
 
 class EpicsbaseConan(ConanFile):
     name = "epics"
-    version = "7.0.3.1-dm2"
+    version = "7.0.3.1-dm3"
     license = "EPICS Open license"
     url = "https://github.com/ess-dmsc/conan-epics-base"
     description = "EPICS Base version 7"
@@ -60,9 +60,6 @@ class EpicsbaseConan(ConanFile):
 
         os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
 
-    def _add_linux_config(self):
-        pass
-
     def _using_devtoolset(self):
         gcc_path = tools.which("gcc")
         if gcc_path is not None:
@@ -95,6 +92,32 @@ class EpicsbaseConan(ConanFile):
         shutil.copyfile(
             os.path.join(self.source_folder, "files", "build_win32.bat"),
             os.path.join(EPICS_BASE_DIR, "build_win32.bat")
+        )
+    
+    def _add_linux_config(self):
+        if self.settings.compiler == "gcc" and self._using_devtoolset():
+            self._set_path_to_devtoolset_gnu()
+    
+    def _using_devtoolset(self):
+        gcc_path = tools.which("gcc")
+        if gcc_path is not None:
+            return 'devtoolset' in gcc_path
+        else:
+            return False
+
+    def _set_path_to_devtoolset_gnu(self):
+        gcc_path = tools.which("gcc")
+        path_to_gnu_bin = os.path.split(gcc_path)[0]
+        path_to_gnu = os.path.split(path_to_gnu_bin)[0]
+        tools.replace_in_file(
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
+            "GNU_BIN = $(GNU_DIR)/bin",
+            "GNU_BIN = {}/bin".format(path_to_gnu)
+        )
+        tools.replace_in_file(
+            os.path.join(EPICS_BASE_DIR, "configure", "CONFIG.gnuCommon"),
+            "GNU_LIB = $(GNU_DIR)/lib",
+            "GNU_LIB = {}/lib".format(path_to_gnu)
         )
 
     def package(self):
