@@ -33,7 +33,6 @@ Follow these instructions:
 	```
 	conan create . ess-dmsc/stable
 	```
-	Where **x.y.z-dm1** is the same version string as set on line 14 in the *conanfile.py*-file.
 
 5. Upload the new package to the relevant conan package repository by executing:
 
