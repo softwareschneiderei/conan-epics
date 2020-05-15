@@ -31,7 +31,7 @@ Follow these instructions:
 4. When in the directory of the local copy of *conan-epics*, execute this command:
 
 	```
-	conan create . epics/x.y.z-dm1@ess-dmsc/stable
+	conan create . ess-dmsc/stable
 	```
 	Where **x.y.z-dm1** is the same version string as set on line 14 in the *conanfile.py*-file.
 
