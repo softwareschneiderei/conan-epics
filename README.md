@@ -33,6 +33,7 @@ Follow these instructions:
 	```
 	conan create . ess-dmsc/stable
 	```
+    *Note:* If the build stage fails, you might have to update to a more recent version of Perl.
 
 5. Upload the new package to the relevant conan package repository by executing:
 
