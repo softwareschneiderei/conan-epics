@@ -157,3 +157,8 @@ class EpicsbaseConan(ConanFile):
             "pvaClient",
             "qsrv",
         ]
+        self.cpp_info.includedirs = ["include"]
+        if self.settings.os == "Linux":
+            self.cpp_info.includedirs += ["include/os/Linux"]
+        if self.settings.compiler == "gcc":
+            self.cpp_info.includedirs += ["include/compiler/gcc"]
