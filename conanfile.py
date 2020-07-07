@@ -55,8 +55,11 @@ class EpicsbaseConan(ConanFile):
             if tools.os_info.is_windows:
                 self.run("build_win32.bat")
             else:
+                build_type_args = []
+                if not self.options.shared:
+                    build_type_args = ["STATIC_BUILD=YES", "SHARED_LIBRARIES=NO"]
                 base_build = AutoToolsBuildEnvironment(self)
-                base_build.make()
+                base_build.make(args=build_type_args)
 
         os.rename(os.path.join(EPICS_BASE_DIR, "LICENSE"), "LICENSE.EPICSBase")
 
@@ -144,8 +147,6 @@ class EpicsbaseConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = [
-            "Com",
-            "ca",
             "dbCore",
             "dbRecStd",
             "nt",
@@ -156,6 +157,8 @@ class EpicsbaseConan(ConanFile):
             "pvDatabase",
             "pvaClient",
             "qsrv",
+            "ca",
+            "Com",
         ]
         self.cpp_info.includedirs = ["include"]
         if self.settings.os == "Linux":
